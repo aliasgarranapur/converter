@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image to PDF Converter | Advanced PDF Tools</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Advanced Image to PDF Converter</h1>
+            <p>Convert your images to high-quality PDFs with customizable options</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="converter-container">
+            <div class="upload-section">
+                <div class="drop-area" id="dropArea">
+                    <span class="drop-icon">📁</span>
+                    <h3>Drag & Drop Images Here</h3>
+                    <p>or</p>
+                    <input type="file" id="fileInput" accept="image/*" multiple>
+                    <label for="fileInput" class="btn">Browse Files</label>
+                    <p class="formats">Supports: JPG, PNG, GIF, BMP, WEBP</p>
+                </div>
+                
+                <div class="preview-section" id="previewSection">
+                    <h3>Selected Images</h3>
+                    <div class="preview-grid" id="previewGrid"></div>
+                    <button id="clearAllBtn" class="btn secondary">Clear All</button>
+                </div>
+            </div>
+
+            <div class="options-section">
+                <h2>PDF Options</h2>
+                
+                <div class="options-grid">
+                    <div class="option-group">
+                        <label for="pageSize">Page Size:</label>
+                        <select id="pageSize">
+                            <option value="a4">A4 (210 × 297 mm)</option>
+                            <option value="letter">Letter (8.5 × 11 in)</option>
+                            <option value="legal">Legal (8.5 × 14 in)</option>
+                            <option value="a5">A5 (148 × 210 mm)</option>
+                            <option value="match">Match Image Size</option>
+                        </select>
+                    </div>
+                    
+                    <div class="option-group">
+                        <label for="pageOrientation">Orientation:</label>
+                        <select id="pageOrientation">
+                            <option value="portrait">Portrait</option>
+                            <option value="landscape">Landscape</option>
+                            <option value="auto">Auto (match images)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="option-group">
+                        <label for="marginSize">Margin Size:</label>
+                        <select id="marginSize">
+                            <option value="0">No margin</option>
+                            <option value="10" selected>Small (10mm)</option>
+                            <option value="20">Medium (20mm)</option>
+                            <option value="30">Large (30mm)</option>
+                            <option value="custom">Custom</option>
+                        </select>
+                        <div id="customMarginGroup" class="hidden">
+                            <input type="number" id="customMargin" min="0" max="100" value="10" placeholder="mm">
+                        </div>
+                    </div>
+                    
+                    <div class="option-group">
+                        <label for="imageFit">Image Fit:</label>
+                        <select id="imageFit">
+                            <option value="fill">Fill Page</option>
+                            <option value="fit" selected>Fit to Page</option>
+                            <option value="actual">Actual Size</option>
+                        </select>
+                    </div>
+                    
+                    <div class="option-group">
+                        <label for="pageLayout">Page Layout:</label>
+                        <select id="pageLayout">
+                            <option value="single">One image per page</option>
+                            <option value="double">Two images per page (spread)</option>
+                            <option value="quad">Four images per page</option>
+                            <option value="custom">Custom grid</option>
+                        </select>
+                        <div id="customLayoutGroup" class="hidden">
+                            <label>Columns: <input type="number" id="customCols" min="1" max="5" value="2"></label>
+                            <label>Rows: <input type="number" id="customRows" min="1" max="5" value="2"></label>
+                        </div>
+                    </div>
+                    
+                    <div class="option-group">
+                        <label for="borderStyle">Border Style:</label>
+                        <select id="borderStyle">
+                            <option value="none">None</option>
+                            <option value="solid" selected>Solid Line</option>
+                            <option value="dashed">Dashed Line</option>
+                            <option value="shadow">Shadow Effect</option>
+                        </select>
+                    </div>
+                    
+                    <div class="option-group">
+                        <label for="borderColor">Border Color:</label>
+                        <input type="color" id="borderColor" value="#000000">
+                    </div>
+                    
+                    <div class="option-group">
+                        <label for="borderWidth">Border Width:</label>
+                        <input type="range" id="borderWidth" min="0" max="10" value="1" step="0.5">
+                        <span id="borderWidthValue">1px</span>
+                    </div>
+                    
+                    <div class="option-group checkbox-group">
+                        <input type="checkbox" id="addPageNumbers" checked>
+                        <label for="addPageNumbers">Add Page Numbers</label>
+                    </div>
+                    
+                    <div class="option-group checkbox-group">
+                        <input type="checkbox" id="addWatermark">
+                        <label for="addWatermark">Add Watermark</label>
+                        <div id="watermarkOptions" class="hidden">
+                            <input type="text" id="watermarkText" placeholder="Watermark text">
+                            <input type="color" id="watermarkColor" value="#cccccc">
+                            <input type="range" id="watermarkOpacity" min="10" max="90" value="30">
+                            <span>Opacity: <span id="opacityValue">30</span>%</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="compression-options">
+                    <h3>Compression Options</h3>
+                    <div class="option-group">
+                        <label for="quality">Image Quality:</label>
+                        <input type="range" id="quality" min="10" max="100" value="85">
+                        <span id="qualityValue">85%</span>
+                    </div>
+                    <p class="note">Higher quality = Larger file size</p>
+                </div>
+            </div>
+            
+            <div class="action-section">
+                <button id="convertBtn" class="btn primary">Convert to PDF</button>
+                <button id="downloadBtn" class="btn secondary" disabled>Download PDF</button>
+                <div class="loading hidden" id="loadingIndicator">
+                    <div class="spinner"></div>
+                    <span>Processing...</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© 2023 Advanced Image to PDF Converter. All rights reserved.</p>
+            <p class="disclaimer">This tool works entirely in your browser. Your images are not uploaded to any server.</p>
+        </div>
+    </footer>
+
+    <div class="modal hidden" id="successModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Conversion Complete!</h2>
+            <p>Your PDF is ready to download.</p>
+            <button id="modalDownloadBtn" class="btn primary">Download PDF</button>
+            <button id="newConversionBtn" class="btn secondary">Start New Conversion</button>
+        </div>
+    </div>
+</body>
+</html>
